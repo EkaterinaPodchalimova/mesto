@@ -9,7 +9,6 @@
     flex-direction: column;
     align-items: center;
     margin: auto;
-    z-index: 2;
 }
 
 @media screen and (max-width: 1279px) and (min-width: 320px) {
