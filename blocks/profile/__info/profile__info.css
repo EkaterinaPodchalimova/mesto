@@ -1,5 +1,4 @@
 .profile__info {
-    width: 100%;
     margin: 0;
     padding-left: 30px;
     height: fit-content;
@@ -14,7 +13,6 @@
 
 @media screen and (max-width: 1279px) and (min-width: 320px) {
     .profile__info {
-        width: 100%;
         padding-top: 26px;
         padding-left: 0;
         margin: 0 auto;
