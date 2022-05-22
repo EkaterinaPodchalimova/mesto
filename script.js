@@ -26,4 +26,5 @@ function formSubmitHandler (evt) {
     evt.preventDefault(); 
     nameprofile.textContent = nameInput.value;
     jobprofile.textContent = jobInput.value;
+    openpopup.removeAttribute('style','display: flex');
 }
