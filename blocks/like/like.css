@@ -1,0 +1,14 @@
+.like {
+    grid-area: like;
+    width: 22px;
+    height: 19px;
+    padding-right: 20px;
+    padding-left: auto;
+    padding-top: 5px;
+    transition: opacity 0.3s ease-in;
+}
+
+.like:hover {
+    opacity: 0.5;
+    cursor: pointer;
+}

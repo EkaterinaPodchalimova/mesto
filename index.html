@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto</title>
+  <link rel="stylesheet" href="./pages/index.css">
+</head>
+<body class="body">
+  <div class="page">
+    <header class="header">
+      <img class="logo" src="./images/logo_white.svg" alt="логотип Место">
+    </header>
+    <section class="profile">
+      <img class="avatar" src="./images/image.jpg" alt="аватaрка">
+      <div class="profile__info">
+        <div class="profile__info_main">
+          <p class="profile__name">Жак-Ив Кусто</p>
+          <button class="edit-button"></button>
+        </div>
+        <p class="profile__job">Исследователь океана</p>
+      </div>
+      <button class="add-button"></button>
+    </section>
+    <section class="elements">
+      <div class="element">
+        <img class="element__photo" src="./images/karachaev.png" alt="изображение карачаевска">
+        <p class="elment__text">Карачаевск</p>
+        <img class="like" src="./images/like.svg" alt="лайк">
+      </div>
+      <div class="element">
+        <img class="element__photo" src="./images/gorny.png" alt="изображение эльбруса в тумане">
+        <p class="elment__text">Гора Эльбрус</p>
+        <img class="like" src="./images/like.svg" alt="лайк">
+      </div>
+      <div class="element">
+        <img class="element__photo" src="./images/dombay.png" alt="изображение карачаевска">
+        <p class="elment__text">Домбай</p>
+        <img class="like" src="./images/like.svg" alt="лайк">
+      </div>
+      <div class="element">
+        <img class="element__photo" src="./images/gorny.png" alt="изображение эльбруса в тумане">
+        <p class="elment__text">Гора Эльбрус</p>
+        <img class="like" src="./images/like.svg" alt="лайк">
+      </div>
+      <div class="element">
+        <img class="element__photo" src="./images/dombay.png" alt="изображение карачаевска">
+        <p class="elment__text">Домбай</p>
+        <img class="like" src="./images/like.svg" alt="лайк">
+      </div>
+      <div class="element">
+        <img class="element__photo" src="./images/karachaev.png" alt="изображение карачаевска">
+        <p class="elment__text">Карачаево-Черкесия</p>
+        <img class="like" src="./images/like.svg" alt="лайк">
+      </div>
+    </section>
+    <section class="popup popup_opened">
+      <div class="popup__background"></div>
+      <form class="popup__container">
+        <label class="popup__label">Редактировать профиль</label>
+        <input type="text" placeholder="Введите имя" class="popup__form popup__name">
+        <input type="text" placeholder="Введите род деятельности" class="popup__form popup__job">
+        <input type="submit" value="Сохранить" class="popup__button" >
+      </form>
+      <img src="./images/CloseIcon.svg" alt="Закрыть" class="popup__close">
+    </section>
+    <footer class="footer">
+        <p class="footer__author">&#169; 2020 Mesto Russia</p>
+    </footer>
+  </div>
+  <script src="./script.js"></script>
+</body>

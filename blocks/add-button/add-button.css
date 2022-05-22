@@ -1,0 +1,26 @@
+.add-button {
+    align-self: center;
+    margin-left: auto;
+    width: 150px;
+    height: 50px;
+    padding: 0;
+    border: 2px solid #FFFFFF;
+    border-radius: 2px;
+    background-image: url(../../images/add.svg);
+    background-color: transparent;
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: opacity 0.3s ease-in;
+}
+
+@media screen and (max-width: 1279px) and (min-width: 320px) {
+    .add-button {
+        width: 100%;
+        margin-top: 36px;
+    }
+}
+
+.add-button:hover {
+    opacity: 0.6;
+    cursor: pointer;
+}
