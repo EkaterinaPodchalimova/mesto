@@ -4,7 +4,7 @@
     border-radius: 10px;
     display: grid;
     grid-template-columns: 1fr 42px;
-    grid-template-rows: max-content 1fr;
+    grid-template-rows: 282px 1fr;
     grid-template-areas: 
     "photo photo"
     "text like";
