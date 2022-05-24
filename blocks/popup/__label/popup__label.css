@@ -12,6 +12,9 @@
 
 @media screen and (max-width: 1279px) and (min-width: 320px) {
     .popup__label {
+        width: calc(100% - 2*22px);
+        text-align: center;
+        padding-left: 0;
         align-self: center;
         font-size: 18px;
         line-height: 22px;
