@@ -28,8 +28,8 @@
         <div class="popup__container popup__container_type_edit-user">
           <form class="popup__form" name="edit-from">
             <h2 class="popup__label">Редактировать профиль</h2>
-            <input type="text" placeholder="Введите имя" class="popup__input popup__input_value_name" name="name" pattern="^[^\s]+(\s.*)?$">
-            <input type="text" placeholder="Введите род деятельности" class="popup__input popup__input_value_job" name="job" pattern="^[^\s]+(\s.*)?$">
+            <input type="text" placeholder="Введите имя" class="popup__input popup__input_value_name" name="name"required pattern="^[^\s]+(\s.*)?$">
+            <input type="text" placeholder="Введите род деятельности" class="popup__input popup__input_value_job" required name="job" pattern="^[^\s]+(\s.*)?$">
             <input type="submit" value="Сохранить" class="popup__button popup__button_type_edit-user">
           </form>
           <button class="popup__close popup__close_type_edit-user" type="button" aria-label="Закрыть"></button>
@@ -57,15 +57,16 @@
     <template id="element-template">
       <article class="element">
         <img class="element__photo" src="#" alt="">
-        <button class="trash" type="button" aria-label="Удалить фото"></button>
+        <button class="element__trash" type="button" aria-label="Удалить фото"></button>
         <h2 class="element__text"></h2>
-        <button class="like" type="button" aria-label="Поставить лайк"></button>
+        <button class="element__like" type="button" aria-label="Поставить лайк"></button>
       </article>
     </template>
     <footer class="footer">
         <p class="footer__author">&copy; 2020 Mesto Russia</p>
     </footer>
   </div>
+  <script src="./scripts/cards.js"></script>
   <script src="./scripts/index.js"></script>
 </body>
 </html>

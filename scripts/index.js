@@ -1,131 +1,107 @@
-let popupTypeEdit = document.querySelector('.popup_type_edit-user');
-let popupTypeAddCard = document.querySelector('.popup_type_add-card');
-let popupTypeCardPhoto = document.querySelector('.popup_type_card');
-let editButton = document.querySelector('.profile__edit-button');
-let addButton = document.querySelector('.profile__add-button');
-let nameElementProfile = document.querySelector('.profile__name');
-let jobElementProfile = document.querySelector('.profile__job');
-let formElementTypeEdit = popupTypeEdit.querySelector('.popup__container_type_edit-user');
-let formElementTypeAddCard = popupTypeAddCard.querySelector('.popup__container_type_add-card');
-let closePopupTypeEdit = popupTypeEdit.querySelector('.popup__close_type_edit-user');
-let closePopupTypeAddCard = popupTypeAddCard.querySelector('.popup__close_type_add-card');
-let closePopupTypeCardPhoto = popupTypeCardPhoto.querySelector('.popup__close_type_card');
-let nameElementInput = formElementTypeEdit.querySelector('.popup__input_value_name');
-let jobElementInput = formElementTypeEdit.querySelector('.popup__input_value_job');
-let placeElementInput = popupTypeAddCard.querySelector('.popup__input_value_place');
-let photoElementInput = popupTypeAddCard.querySelector('.popup__input_value_photo');
-let photoCard = popupTypeCardPhoto.querySelector('.popup__card-photo');
-let placeCard = popupTypeCardPhoto.querySelector('.popup__card-place');
-let elements = document.querySelector('.elements');
-let cardTemplate = document.querySelector('#element-template').content;
-const initialCards = [
-    {
-        name: 'Архыз',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg'
-    },
-    {
-        name: 'Челябинская область',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg'
-    },
-    {
-        name: 'Иваново',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg'
-    },
-    {
-        name: 'Камчатка',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg'
-    },
-    {
-        name: 'Холмогорский район',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg'
-    },
-    {
-        name: 'Байкал',
-        link: 'https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg'
-    }
-];
+const popupTypeEdit = document.querySelector('.popup_type_edit-user');
+const popupTypeAddCard = document.querySelector('.popup_type_add-card');
+const popupTypeCardPhoto = document.querySelector('.popup_type_card');
+const editButton = document.querySelector('.profile__edit-button');
+const addButton = document.querySelector('.profile__add-button');
+const nameElementProfile = document.querySelector('.profile__name');
+const jobElementProfile = document.querySelector('.profile__job');
+const formElementTypeEdit = popupTypeEdit.querySelector('.popup__container_type_edit-user');
+const formElementTypeAddCard = popupTypeAddCard.querySelector('.popup__container_type_add-card');
+const closePopupTypeEdit = popupTypeEdit.querySelector('.popup__close_type_edit-user');
+const closePopupTypeAddCard = popupTypeAddCard.querySelector('.popup__close_type_add-card');
+const closePopupTypeCardPhoto = popupTypeCardPhoto.querySelector('.popup__close_type_card');
+const nameElementInput = formElementTypeEdit.querySelector('.popup__input_value_name');
+const jobElementInput = formElementTypeEdit.querySelector('.popup__input_value_job');
+const placeElementInput = popupTypeAddCard.querySelector('.popup__input_value_place');
+const photoElementInput = popupTypeAddCard.querySelector('.popup__input_value_photo');
+const photoCard = popupTypeCardPhoto.querySelector('.popup__card-photo');
+const placeCard = popupTypeCardPhoto.querySelector('.popup__card-place');
+const elements = document.querySelector('.elements');
+const cardTemplate = document.querySelector('#element-template').content;
+const formTypeAdd = popupTypeAddCard.querySelector('.popup__form');
 
 initialCards.forEach(function (element) {
-    const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
-    cardElement.querySelector('.element__photo').setAttribute('src',element.link);
-    cardElement.querySelector('.element__photo').setAttribute('alt','изображение ' + element.name);
-    cardElement.querySelector('.element__text').textContent = element.name;
-    elements.append(cardElement);
-    const likeButton = cardElement.querySelector('.like');
-    likeButton.addEventListener('click',likeClick);
-    const trashButton = cardElement.querySelector('.trash');
-    trashButton.addEventListener('click',function (){deleteCard(cardElement)});
-    if((element.link == '') || (element.name == '') || (element.name == undefined) || ((element.link == undefined)))
-    {
-        deleteCard(cardElement);
-    }
-    cardElement.querySelector('.element__photo').addEventListener('click', function (){photoOpen(cardElement)});
-
+    elements.prepend(addCard(element.name, element.link));
+});
+editButton.addEventListener('click', openPopupTypeEdit);
+addButton.addEventListener('click', function () {
+    openPopup(popupTypeAddCard)
+});
+closePopupTypeEdit.addEventListener('click', function () {
+    closePopup(popupTypeEdit)
+});
+closePopupTypeAddCard.addEventListener('click', function () {
+    closePopup(popupTypeAddCard);
+    cleanInput(formTypeAdd);
+});
+closePopupTypeCardPhoto.addEventListener('click', function () {
+    closePopup(popupTypeCardPhoto)
 });
 
-editButton.addEventListener('click',editClick);
-addButton.addEventListener('click',function() {popupOpened(popupTypeAddCard)});
-closePopupTypeEdit.addEventListener('click',function() {closeClick(popupTypeEdit)});
-closePopupTypeAddCard.addEventListener('click', function() {closeClick(popupTypeAddCard);cleanInput();});
-closePopupTypeCardPhoto.addEventListener('click',function () {closeClick(popupTypeCardPhoto)})
-formElementTypeEdit.addEventListener('submit', formSubmitTypeEdit);
-formElementTypeAddCard.addEventListener('submit', formSubmitTypeAddCard);
+formElementTypeEdit.addEventListener('submit', submitFormTypeEdit);
+formElementTypeAddCard.addEventListener('submit', submitFormTypeAddCard);
 
-
-function popupOpened(event) {
+function openPopup(event) {
     event.classList.add('popup_opened');
 }
 
-function editClick() {
-    popupOpened(popupTypeEdit);
+function openPopupTypeEdit() {
     nameElementInput.value = nameElementProfile.textContent;
     jobElementInput.value = jobElementProfile.textContent;
+    openPopup(popupTypeEdit);
 }
 
-function closeClick(event) {
+function closePopup(event) {
     event.classList.remove('popup_opened');
 }
 
-function formSubmitTypeEdit(evt) {
+function submitFormTypeEdit(evt) {
     evt.preventDefault();
     nameElementProfile.textContent = nameElementInput.value;
     jobElementProfile.textContent = jobElementInput.value;
-    closeClick(popupTypeEdit);
+    closePopup(popupTypeEdit);
 }
 
-function formSubmitTypeAddCard(evt) {
+function submitFormTypeAddCard(evt) {
     evt.preventDefault();
-    const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
-    cardElement.querySelector('.element__text').textContent =  placeElementInput.value;
-    cardElement.querySelector('.element__photo').setAttribute('alt','изображение ' + placeElementInput.value);
-    cardElement.querySelector('.element__photo').setAttribute('src',photoElementInput.value);
-    elements.append(cardElement);
-    cleanInput();
-    closeClick(popupTypeAddCard);
-    const likeButton = cardElement.querySelector('.like');
-    likeButton.addEventListener('click',likeClick);
-    const trashButton = cardElement.querySelector('.trash');
-    trashButton.addEventListener('click',function (){deleteCard(cardElement)});
-    trashButton.addEventListener('click',function (){deleteCard(cardElement)});
-    cardElement.querySelector('.element__photo').addEventListener('click', function (){photoOpen(cardElement)});
+    elements.prepend(addCard(placeElementInput.value, photoElementInput.value));
+    cleanInput(formTypeAdd);
+    closePopup(popupTypeAddCard);
 }
 
-function likeClick(event) {
-    event.target.classList.toggle('like_active');
+function setLike(event) {
+    event.target.classList.toggle('element__like_active');
 }
 
-function cleanInput() {
-    photoElementInput.value = '';
-    placeElementInput.value = '';
+function cleanInput(element) {
+    element.reset();
 }
 
-function deleteCard(evt) {
-    evt.remove();
+function deleteCard(element) {
+    element.remove();
 }
 
-function photoOpen(evt) {
-    popupOpened(popupTypeCardPhoto);
-    photoCard.setAttribute('src', evt.querySelector('.element__photo').getAttribute('src'));
-    photoCard.setAttribute('alt','Изображение' + evt.querySelector('.element__photo').getAttribute('src'));
+function openPopupPhoto(evt) {
+    photoCard.src = evt.querySelector('.element__photo').getAttribute('src');
+    photoCard.alt = 'Изображение' + evt.querySelector('.element__text').textContent;
     placeCard.textContent = evt.querySelector('.element__text').textContent;
+    openPopup(popupTypeCardPhoto);
+}
+
+function addCard(a, b) {
+    const cardElement = cardTemplate.querySelector('.element').cloneNode(true);
+    const trashButton = cardElement.querySelector('.element__trash');
+    const cardPhoto = cardElement.querySelector('.element__photo');
+    const likeButton = cardElement.querySelector('.element__like');
+    cardElement.querySelector('.element__text').textContent = a;
+    cardPhoto.alt = 'изображение ' + a;
+    cardPhoto.src = b;
+    likeButton.addEventListener('click', setLike);
+    trashButton.addEventListener('click', function () {
+        deleteCard(cardElement)
+    });
+    cardPhoto.addEventListener('click', function () {
+        openPopupPhoto(cardElement)
+    });
+    return cardElement;
 }
