@@ -28,7 +28,7 @@ function openPopup(event) {
 function openPopupTypeEdit() {
     nameElementInput.value = nameElementProfile.textContent;
     jobElementInput.value = jobElementProfile.textContent;
-    toggleButtonStateValid(Array.from(popupTypeEdit.querySelectorAll(inputSelector)),popupTypeEdit.querySelector(submitButtonSelector));
+    permittedSubmitButton(popupTypeEdit.querySelector(selectors.submitButtonSelector), selectors.inactiveButtonClass);
     openPopup(popupTypeEdit);
 }
 
@@ -57,7 +57,7 @@ function setLike(event) {
 
 function cleanInput(element) {
     element.reset();
-    toggleButtonStateInvalid(Array.from(element.querySelectorAll(inputSelector)),element.querySelector(submitButtonSelector));
+    disableSubmitButton(element.querySelector(selectors.submitButtonSelector), selectors.inactiveButtonClass);
 }
 
 function deleteCard(element) {
@@ -94,17 +94,29 @@ function keyHandler(evt) {
     const openedPopup = document.querySelector('.popup_opened');
     if (evt.key === "Escape") {
         closePopup(openedPopup);
-        cleanInput(openedPopup.querySelector('.popup__form'));
+        cleanInput(openedPopup.querySelector(selectors.formSelector));
     }
 }
 
 initialCards.forEach(function (element) {
     elements.prepend(createCard(element.name, element.link));
 });
-document.addEventListener('click', function (evt) {
+popupTypeEdit.addEventListener('click', function (evt) {
     if (evt.target.classList.contains('popup_opened')){
         closePopup(evt.target);
-        cleanInput(evt.target.querySelector(formSelector));
+        cleanInput(evt.target.querySelector(selectors.formSelector));
+    }
+});
+popupTypeCardPhoto.addEventListener('click', function (evt) {
+    if (evt.target.classList.contains('popup_opened')){
+        closePopup(evt.target);
+        cleanInput(evt.target.querySelector(selectors.formSelector));
+    }
+});
+popupTypeAddCard.addEventListener('click', function (evt) {
+    if (evt.target.classList.contains('popup_opened')){
+        closePopup(evt.target);
+        cleanInput(evt.target.querySelector(selectors.formSelector));
     }
 });
 editButton.addEventListener('click', openPopupTypeEdit);
