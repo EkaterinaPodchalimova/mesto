@@ -1,13 +1,3 @@
-export const selectors = {
-    formSelector: '.popup__form',
-    inputSelector: '.popup__input',
-    submitButtonSelector: '.popup__button',
-    inactiveButtonClass: 'popup__button_disabled',
-    inputErrorClass: 'popup__input_type_error',
-    errorClass: 'popup__error_visible'
-};
-import { closePopupTypeEdit, closePopupTypeAddCard} from './index.js';
-
 export class FormValidator {
     constructor(selector, element) {
         this._inputSelector = selector.inputSelector;
@@ -18,7 +8,6 @@ export class FormValidator {
         this._formElement = element;
         this._inputList = Array.from(this._formElement.querySelectorAll(this._inputSelector));
         this._buttonElement = this._formElement.querySelector(this._submitButtonSelector);
-
     }
 
     _setEventListeners() {
@@ -36,22 +25,7 @@ export class FormValidator {
         inputElement.classList.add(this._inputErrorClass);
         errorElement.textContent = inputElement.validationMessage;
         errorElement.classList.add(this._errorClass);
-        closePopupTypeEdit.addEventListener('click',() => {
-            this.resetValidation()
-        });
-        closePopupTypeAddCard.addEventListener('click',() => {
-            this.resetValidation()
-        });
-        document.addEventListener('click', (evt) => {
-            if(evt.target.classList.contains('popup')) {
-                this.resetValidation()
-            }
-        });
-        document.addEventListener('keydown', (evt) => {
-            if (evt.key === "Escape") {
-                this.resetValidation()
-            }
-        });}
+    }
 
     _hideInputError(inputElement) {
         const errorElement = this._formElement.querySelector(`.${inputElement.id}-error`);
@@ -79,11 +53,13 @@ export class FormValidator {
     disableSubmitButton() {
         this._buttonElement.classList.add(this._inactiveButtonClass);
         this._buttonElement.disabled = true;
+        this._buttonElement.style.cursor = 'default';
     }/*Пришлось сделать публичными для ображения в index.js*/
 
     permittedSubmitButton() {
         this._buttonElement.classList.remove(this._inactiveButtonClass);
         this._buttonElement.removeAttribute('disabled', true);
+        this._buttonElement.style.cursor = 'pointer';
     }
 
     _hasInvalidInput() {
