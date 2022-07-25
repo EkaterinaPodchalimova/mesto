@@ -1,4 +1,4 @@
-import Popup from './popup.js';
+import Popup from './Popup.js';
 export default class PopupWithImage extends Popup {
     constructor(selector) {
         super(selector);
@@ -6,10 +6,9 @@ export default class PopupWithImage extends Popup {
         this._place = this._element.querySelector('.popup__card-place');
     }
     open({link, name}) {
-        super.open();
         this._photo.src = link;/*Ссылка на card*/
         this._photo.alt = 'Изображение' + name;/*Ссылка на card*/
         this._place.textContent = name;/*Ссылка на card*/
-        this.setEventListeners();
+        super.open();
     }
 }

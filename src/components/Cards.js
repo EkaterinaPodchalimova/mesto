@@ -16,22 +16,26 @@ export class Card {
     }
 
     _setLike() {
-        this._element.querySelector('.element__like').classList.toggle('element__like_active');
+        this._like.classList.toggle('element__like_active');
     }
 
     _deleteCard() {
         this._element.remove();
+        this._element = null;
     }
 
     _setEventListeners() {
-        this._element.querySelector('.element__like').addEventListener('click', () => this._setLike());
+        this._like.addEventListener('click', () => this._setLike());
         this._element.querySelector('.element__trash').addEventListener('click', () => this._deleteCard());
-        this._element.querySelector('.element__photo').addEventListener('click', () => this._handleCardClick({link:this._link, name:this._name}));
+        this._photo.addEventListener('click', () => this._handleCardClick({link:this._link, name:this._name}));
     }
 
     generateCard() {
         this._element = this._getTemplate();
-        this._element.querySelector('.element__photo').src = this._link;
+        this._like = this._element.querySelector('.element__like');
+        this._photo = this._element.querySelector('.element__photo');
+        this._photo.src = this._link;
+        this._photo.alt = 'Изображение ' + this._name;
         this._element.querySelector('.element__text').textContent = this._name;
         this._setEventListeners();
         return this._element;
