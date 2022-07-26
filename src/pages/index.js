@@ -1,5 +1,5 @@
 import './index.css';
-import { Card} from '../components/Cards.js';
+import { Card} from '../components/Card.js';
 import { initialCards} from '../utils/initial-cards.js';
 import { validationConfig} from "../utils/validation-config.js";
 import { buttonEditProfile, buttonAddCard, nameElementInput, jobElementInput} from '../utils/constants.js';
@@ -41,20 +41,19 @@ popupTypeAddCard.setEventListeners();
 const popupTypeCardPhoto = new PopupWithImage('.popup_type_card');
 popupTypeCardPhoto.setEventListeners();
 
-const cardsList = new Section((item) => {
-        cardsList.addItem(createElement(item));
-    },
-    '.elements');
-cardsList.renderItems(initialCards);
+const cardsList = new Section('.elements');
+cardsList.renderItems(initialCards,(item) => {
+    cardsList.addItem(createElement(item));
+});
 
-function formValidation({formSelector, ...rest}) {
+function validationForms({formSelector, ...rest}) {
     const formList = Array.from(document.querySelectorAll(formSelector));
     formList.forEach((formElement) => {
         const validForm = new FormValidator(validationConfig, formElement);
         validForm.enableValidation();
     });
 }
-formValidation(validationConfig);
+validationForms(validationConfig);
 
 buttonEditProfile.addEventListener('click', () => {
     const {name, job} = userInformation.getUserInfo();

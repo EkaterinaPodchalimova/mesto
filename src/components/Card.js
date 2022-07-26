@@ -35,7 +35,7 @@ export class Card {
         this._like = this._element.querySelector('.element__like');
         this._photo = this._element.querySelector('.element__photo');
         this._photo.src = this._link;
-        this._photo.alt = 'Изображение ' + this._name;
+        this._photo.alt = `Изображение ${this._name}`;
         this._element.querySelector('.element__text').textContent = this._name;
         this._setEventListeners();
         return this._element;
