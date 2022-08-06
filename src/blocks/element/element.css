@@ -9,5 +9,5 @@
     grid-template-areas: 
     "photo photo"
     "text like";
-    grid-row-gap: 25px;
+    grid-row-gap: 22px;
 }

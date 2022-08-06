@@ -1,0 +1,18 @@
+.avatar-block {
+    width: 120px;
+    height: 120px;
+    position: relative;
+}
+
+.avatar-block:hover .avatar {
+    opacity: 0.2;
+}
+
+.avatar-block:hover .avatar__edit {
+    transition: opacity 0.5s;
+    opacity: 1;
+}
+
+.avatar-block:hover {
+    cursor: pointer;
+}
