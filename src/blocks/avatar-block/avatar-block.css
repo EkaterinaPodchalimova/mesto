@@ -8,7 +8,7 @@
     opacity: 0.2;
 }
 
-.avatar-block:hover .avatar__edit {
+.avatar-block:hover .avatar-edit {
     transition: opacity 0.5s;
     opacity: 1;
 }
