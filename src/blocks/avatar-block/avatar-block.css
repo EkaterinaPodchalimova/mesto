@@ -12,7 +12,3 @@
     transition: opacity 0.5s;
     opacity: 1;
 }
-
-.avatar-block:hover {
-    cursor: pointer;
-}
