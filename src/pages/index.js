@@ -6,8 +6,7 @@ import {
     buttonAddCard,
     buttonEditAvatar,
     nameElementInput,
-    jobElementInput,
-    avatar
+    jobElementInput
 } from '../utils/constants.js';
 import FormValidator from '../components/FormValidator.js';
 import PopupWithImage from '../components/PopupWithImage.js';
@@ -17,7 +16,7 @@ import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
 import Api from '../components/Api.js';
 
-const userInformation = new UserInfo({name: '.profile__name', about:'.profile__job'});
+const userInformation = new UserInfo({name: '.profile__name', about:'.profile__job', avatar: '.avatar'});
 const initialCards = [];
 const cardsList = new Section('.elements');
 const formTypeEdit = new FormValidator(validationConfig, document.forms.edit);
@@ -31,33 +30,32 @@ const api = new Api({
         'Content-Type': 'application/json'
     }
 });
-api.getUserInformation()
-    .then(res => {
-        userInformation.setUserInfo({name: res.name, about: res.about, id: res._id});
-        avatar.src = res.avatar;
-    })
-    .catch((err) => {
-        console.log(err);
-    });
-api.getInitialCards()
-    .then(res => {
-        res.forEach(el => {
+Promise.all([
+    api.getUserInformation(),
+    api.getInitialCards()
+])
+    .then(([resUser, resCards]) => {
+        userInformation.setUserInfo({name: resUser.name, about: resUser.about, id: resUser._id});
+        userInformation.editAvatar(resUser.avatar);
+        resCards.forEach(el => {
             initialCards.unshift({name: el.name, link: el.link, likes: el.likes, id: el._id, owner: el.owner._id})
         });
         cardsList.renderItems(initialCards,
             (item) => {
                 cardsList.addItem(
                     createElement(item))
-                });
+            });
     })
     .catch((err) => {
         console.log(err);
     });
 
 const editAvatar = async ({link}) => {
-    popupTypeEditAvatar.close();
-    avatar.src = await api.editAvatar(link)
-        .then(res => res.avatar)
+    await api.editAvatar(link)
+        .then(res => {
+            userInformation.editAvatar(res.avatar);
+            popupTypeEditAvatar.close();
+        })
         .catch((err) => {
             console.log(err);
         });
@@ -77,37 +75,43 @@ const handleTrashClick = (id,func) => {
     popupTypeDeleteCard.open();
     popupTypeDeleteCard.submitAgree( () => {
         api.deleteCard(id)
+            .then(() => {
+                func();
+                popupTypeDeleteCard.close();
+            })
             .catch((err) => {
                 console.log(err);
             });
-        func();
     });
 };
 
 const handleButtonClickLike = async (result, id , func)  => {
-   let likeNumber;
     if (result) {
-        likeNumber = await api.addLike(id)
-            .then(res => res.likes.length)
+        await api.addLike(id)
+            .then(res => {
+                func(res.likes.length)
+            })
             .catch((err) => {
                 console.log(err);
             });
-        func(likeNumber);
     } else {
-        likeNumber = await api.deleteLike(id)
-            .then(res =>   res.likes.length)
+        await api.deleteLike(id)
+            .then(res => {
+                func(res.likes.length)
+            })
             .catch((err) => {
                 console.log(err);
             });
-        func(likeNumber);
     }
 
 };
 
 const handleButtonClickTypeEdit = async ({name, about}) => {
-    userInformation.setUserInfo({name, about});
-    popupTypeEditUser.close()
     await api.setUserInformation({name, about})
+        .then((res) => {
+            userInformation.setUserInfo({name, about, id: res._id});
+            popupTypeEditUser.close()
+        })
         .catch((err) => {
         console.log(err);
     });
@@ -117,12 +121,17 @@ const handleButtonClickTypeAddCard = async ({name, link}) => {
     await api.postNewCard({name, link})
         .then((res) => {
             cardsList.addItem(createElement({name, link, likes: [], id: res._id, owner: res.owner._id}));
+            popupTypeAddCard.close();
     })
         .catch((err) => {
             console.log(err);
         });
-    popupTypeAddCard.close();
 };
+
+const openValidPopup = (popup, form) => {
+    form.resetValidation();
+    popup.open();
+}
 
 const popupTypeEditUser = new PopupWithForm('.popup_type_edit-user', handleButtonClickTypeEdit);
 popupTypeEditUser.setEventListeners();
@@ -150,17 +159,14 @@ validationForms(validationConfig);
 
 buttonEditProfile.addEventListener('click', () => {
     const {name, about} = userInformation.getUserInfo();
-    formTypeEdit.resetValidation();
-    popupTypeEditUser.open();
+    openValidPopup(popupTypeEditUser, formTypeEdit);
     formTypeEdit.permittedSubmitButton();
     nameElementInput.value = name;
     jobElementInput.value = about;
 });
 buttonAddCard.addEventListener('click', () => {
-    formTypeAddCard.resetValidation();
-    popupTypeAddCard.open()
+    openValidPopup(popupTypeAddCard,formTypeAddCard)
 });
 buttonEditAvatar.addEventListener('click', () => {
-    formTypeEditAvatar.resetValidation();
-    popupTypeEditAvatar.open();
+    openValidPopup(popupTypeEditAvatar, formTypeEditAvatar)
 })

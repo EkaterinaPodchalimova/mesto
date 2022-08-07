@@ -16,7 +16,6 @@ export default class PopupWithAgreement extends Popup{
         this._form.addEventListener('submit', (evt) => {
             evt.preventDefault();
             this._deleteServer();
-            this.close();
         });
     }
 }
