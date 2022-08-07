@@ -51,9 +51,11 @@ Promise.all([
     });
 
 const editAvatar = async ({link}) => {
+    popupTypeEditAvatar.renderLoading(true);
     await api.editAvatar(link)
         .then(res => {
             userInformation.editAvatar(res.avatar);
+            popupTypeEditAvatar.renderLoading(false);
             popupTypeEditAvatar.close();
         })
         .catch((err) => {
@@ -107,9 +109,11 @@ const handleButtonClickLike = async (result, id , func)  => {
 };
 
 const handleButtonClickTypeEdit = async ({name, about}) => {
+    popupTypeEditUser.renderLoading(true);
     await api.setUserInformation({name, about})
         .then((res) => {
             userInformation.setUserInfo({name, about, id: res._id});
+            popupTypeEditUser.renderLoading(false);
             popupTypeEditUser.close()
         })
         .catch((err) => {

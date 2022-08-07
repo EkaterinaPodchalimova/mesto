@@ -28,4 +28,13 @@ export default class PopupWithForm extends Popup{
         });
         return this._formInputValues;
     }
+
+    renderLoading(isLoading) {
+        this._button = this._form.querySelector('.popup__button');
+        if (isLoading) {
+            this._button.textContent = 'Сохранение...';
+        } else {
+            this._button.textContent = 'Сохранить';
+        }
+    }
 }
