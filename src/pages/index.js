@@ -55,12 +55,13 @@ const editAvatar = async ({link}) => {
     await api.editAvatar(link)
         .then(res => {
             userInformation.editAvatar(res.avatar);
-            popupTypeEditAvatar.renderLoading(false);
             popupTypeEditAvatar.close();
         })
         .catch((err) => {
             console.log(err);
-        });
+        })
+        .finally(() =>
+            popupTypeEditAvatar.renderLoading(false));
 };
 
 const createElement = ({name , link, likes, id, owner}) => {
@@ -88,7 +89,7 @@ const handleTrashClick = (id,func) => {
 };
 
 const handleButtonClickLike = async (result, id , func)  => {
-    if (result) {
+    if (!result) {
         await api.addLike(id)
             .then(res => {
                 func(res.likes.length)
@@ -113,15 +114,16 @@ const handleButtonClickTypeEdit = async ({name, about}) => {
     await api.setUserInformation({name, about})
         .then((res) => {
             userInformation.setUserInfo({name, about, id: res._id});
-            popupTypeEditUser.renderLoading(false);
             popupTypeEditUser.close()
         })
         .catch((err) => {
         console.log(err);
-    });
+    })
+        .finally(() => popupTypeEditUser.renderLoading(false));
 };
 
 const handleButtonClickTypeAddCard = async ({name, link}) => {
+    popupTypeAddCard.renderLoading(true); /* Изначально этого нет в брифе на фигме, но было в тз*/
     await api.postNewCard({name, link})
         .then((res) => {
             cardsList.addItem(createElement({name, link, likes: [], id: res._id, owner: res.owner._id}));
@@ -129,7 +131,8 @@ const handleButtonClickTypeAddCard = async ({name, link}) => {
     })
         .catch((err) => {
             console.log(err);
-        });
+        })
+        .finally(() => popupTypeAddCard.renderLoading(false));
 };
 
 const openValidPopup = (popup, form) => {

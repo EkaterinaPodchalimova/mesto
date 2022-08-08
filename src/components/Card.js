@@ -39,12 +39,12 @@ export class Card {
     }
 
     _setLike() {
-        this._like.classList.toggle('element__like_active');
         this._handleButtonClickLike(
             this._like.classList.contains('element__like_active'),
             this._id,
             (likesNumber) => {
-                this._likes.textContent = likesNumber
+                this._likes.textContent = likesNumber;
+                this._like.classList.toggle('element__like_active');
             });
     }
 
